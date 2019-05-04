@@ -1,0 +1,71 @@
+version: '3.3'
+services:
+  web:
+    build: ./php
+    ports:
+     - "80:80"
+    volumes:
+      - www_vol:/var/www/html
+    depends_on:
+     - db
+     - redis
+     - es01
+
+  db:
+    build: ./db
+    ports:
+     - "3306:3306"
+    volumes:
+      - db_vol:/var/lib/mysql
+     
+  redis:
+    build: ./redis
+    ports:
+     - "6379:6379"
+     
+  es01:
+    build: ./elasticsearch
+    environment:
+      - node.name=es01
+      - cluster.initial_master_nodes=es01
+      - cluster.name=docker-cluster
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ports:
+     - "9200:9200"
+    expose:
+     - "9200"
+     - "9300"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - es01_vol:/usr/share/elasticsearch/data
+     
+  kibana:
+    build: ./kibana
+    environment:
+      ELASTICSEARCH_HOSTS: http://es01:9200
+    ports:
+     - "5601:5601"
+    depends_on:
+     - es01
+
+volumes:
+  www_vol:
+    driver_opts:
+      type: none
+      device: /home/user1/virtual_box_share/volumes/www/html
+      o: bind
+  db_vol:
+    driver_opts:
+      type: none
+      device: /home/user1/virtual_box_share/volumes/db
+      o: bind
+  es01_vol:
+    driver_opts:
+      type: none
+      device: /home/user1/virtual_box_share/volumes/es01
+      o: bind
+      
