@@ -1,0 +1,10 @@
+/volumes/db/*
+!.gitkeep
+
+/volumes/es01/*
+!.gitkeep
+
+/volumes/www/*
+!/volumes/www/html
+/volumes/www/html/*
+!.gitkeep
