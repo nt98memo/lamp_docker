@@ -2,6 +2,8 @@ FROM php:7.3.4-apache
 
 RUN apt-get update
 
+RUN apt-get install -y vim
+
 RUN apt-get install -y mysql-client
 
 RUN apt-get install -y ca-certificates \
