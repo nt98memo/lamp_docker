@@ -56,16 +56,16 @@ volumes:
   www_vol:
     driver_opts:
       type: none
-      device: /home/user1/virtual_box_share/volumes/www/html
+      device: ${PWD}/../volumes/www/html
       o: bind
   db_vol:
     driver_opts:
       type: none
-      device: /home/user1/virtual_box_share/volumes/db
+      device: ${PWD}/../volumes/db
       o: bind
   es01_vol:
     driver_opts:
       type: none
-      device: /home/user1/virtual_box_share/volumes/es01
+      device: ${PWD}/../volumes/es01
       o: bind
       
